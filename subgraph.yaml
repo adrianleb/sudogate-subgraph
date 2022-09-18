@@ -24,3 +24,34 @@ dataSources:
         - function: registerPool(address)
           handler: handleRegisterPool
       file: ./src/mapping.ts
+
+  - kind: ethereum/contract
+    name: SudoRug
+    network: mainnet
+    source:
+      address: '0xf57b152de454abc13aee9c1ecce9097eb922fd7f'
+      abi: SudoRug
+      startBlock: 15527150
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - SudoRug
+      abis:
+        - name: SudoRug
+          file: ./abis/SudoRug.json
+      eventHandlers:
+        - event: FailedToRug(indexed address)
+          handler: handleRugFail
+        - event: RugAlarm(indexed address,uint256,uint256)
+          handler: handleRugSuccess
+        - event: BoughtNFT(indexed address,uint256,uint256)
+          handler: handleNFTBuy
+        - event: SentNFT(indexed address,uint256,indexed address)
+          handler: handleNFTSend
+        - event: SoldNFT(indexed address,uint256,uint256)
+          handler: handleNFTSold
+      file: ./src/mapping.ts
+
+

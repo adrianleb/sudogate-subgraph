@@ -1,5 +1,8 @@
 type Actor @entity {
   id: ID!
+  pools_registered: [SudoPool!]! @derivedFrom(field: "actor")
+  nft_activity: [NFTActivity!]! @derivedFrom(field: "recipient")
+  rug_activity: [RugActivity!]! @derivedFrom(field: "actor")
 }
 
 type NFTContract @entity {
@@ -8,6 +11,34 @@ type NFTContract @entity {
 
 type SudoPool @entity {
   id: ID!
+  actor: Actor!
+}
+
+type NFT @entity {
+  id: ID!
+  token_id: BigInt!
+  contract: NFTContract!
+  activity: [NFTActivity!]! @derivedFrom(field: "token")
+}
+
+type NFTActivity @entity {
+  id: ID!
+  timestamp: BigInt!
+  token: NFT!
+  activity_type: String!
+  transaction_hash: String!
+  recipient: Actor
+  value: BigInt
+}
+
+type RugActivity @entity {
+  id: ID!
+  actor: Actor!
+  success: Boolean!
+  timestamp: BigInt!
+  transaction_hash: String!
+  num_tokens: BigInt
+  value: BigInt
 }
 
 
